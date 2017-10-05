@@ -30,8 +30,6 @@ def train_model(train_data, dev_data, test_data, model, args):
 	optimizer = torch.optim.Adam(model.parameters(),
 								 lr=args.lr,
 								 weight_decay=args.wd)
-
-	#model.train()
 	scores = []
 	for epoch in range(1, args.epochs+1):
 		print("-------------\nEpoch {}:\n".format(epoch))
@@ -51,7 +49,6 @@ def train_model(train_data, dev_data, test_data, model, args):
 		# test
 		test_loss,test_guess,test_tot=\
 								run_epoch(test_data,False,model,optimizer,args)
-		#print('Test MSE loss: {:.6f}'.format(test_loss))
 		print('Test correct: {:.3f} ({}/{})'.format(float(test_guess)/test_tot,
 													test_guess,
 													test_tot))
@@ -81,12 +78,6 @@ def run_epoch(data, is_training, model, optimizer, args):
 	losses = []
 	guesses = 0
 	tot = 0
-
-	# switch between training and evaluation modes; not needed here	
-	#if is_training:
-	#	model.train()
-	#else:
-	#	model.eval()
 
 	# train on each batch
 	for batch in tqdm(data_loader):
@@ -118,5 +109,3 @@ def run_epoch(data, is_training, model, optimizer, args):
 	# Calculate epoch level scores
 	avg_loss = np.mean(losses)
 	return avg_loss, guesses, tot
-
-
